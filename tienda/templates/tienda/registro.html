@@ -1,0 +1,29 @@
+{% extends 'tienda/base.html' %}
+
+{% block titulo %}Registro | Wings House{% endblock %}
+
+{% block contenido %}
+
+<section class="formulario-seccion">
+
+    <h1>CREAR CUENTA</h1>
+
+    <p>Regístrate para realizar tus pedidos.</p>
+
+    <form method="post" class="formulario">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="boton">
+
+            REGISTRARME
+
+        </button>
+
+    </form>
+
+</section>
+
+{% endblock %}

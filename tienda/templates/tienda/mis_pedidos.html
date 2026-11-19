@@ -1,0 +1,49 @@
+{% extends 'tienda/base.html' %}
+
+{% block titulo %}Mis pedidos | Wings House{% endblock %}
+
+{% block contenido %}
+
+<section class="formulario-seccion">
+
+    <h1>HISTORIAL DE PEDIDOS</h1>
+
+    {% for pedido in pedidos %}
+
+        <article class="pedido">
+
+            <h3>Pedido #{{ pedido.id }}</h3>
+
+            <p>Fecha: {{ pedido.fecha }}</p>
+
+            <p>Estado: {{ pedido.get_estado_display }}</p>
+
+            <p>Total: ${{ pedido.total }}</p>
+
+            <h4>Productos:</h4>
+
+            {% for detalle in pedido.detalles.all %}
+
+                <p>
+
+                    {{ detalle.producto.nombre }}
+
+                    x {{ detalle.cantidad }}
+
+                    — ${{ detalle.subtotal }}
+
+                </p>
+
+            {% endfor %}
+
+        </article>
+
+    {% empty %}
+
+        <p>Aún no tienes pedidos registrados.</p>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

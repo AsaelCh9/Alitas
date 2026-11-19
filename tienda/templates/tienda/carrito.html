@@ -1,0 +1,83 @@
+{% extends 'tienda/base.html' %}
+
+{% block titulo %}Carrito | Wings House{% endblock %}
+
+{% block contenido %}
+
+<section class="formulario-seccion">
+
+    <h1>MI CARRITO 🛒</h1>
+
+    {% if elementos %}
+
+        {% for elemento in elementos %}
+
+        <div class="fila-carrito">
+
+            <div>
+
+                <h3>{{ elemento.producto.nombre }}</h3>
+
+                <p>Cantidad: {{ elemento.cantidad }}</p>
+
+                <p>Precio: ${{ elemento.precio }}</p>
+
+                <strong>Subtotal: ${{ elemento.subtotal }}</strong>
+
+            </div>
+
+            <form method="post"
+
+                  action="{% url 'quitar_carrito' elemento.producto.id %}">
+
+                {% csrf_token %}
+
+                <button type="submit" class="boton-eliminar">
+
+                    Eliminar
+
+                </button>
+
+            </form>
+
+        </div>
+
+        {% endfor %}
+
+        <h2 class="total">TOTAL: ${{ total }}</h2>
+
+        {% if user.is_authenticated %}
+
+            <a href="{% url 'checkout' %}" class="boton">
+
+                FINALIZAR PEDIDO
+
+            </a>
+
+        {% else %}
+
+            <p>Inicia sesión para realizar tu pedido.</p>
+
+            <a href="{% url 'login' %}" class="boton">
+
+                INICIAR SESIÓN
+
+            </a>
+
+        {% endif %}
+
+    {% else %}
+
+        <p>Tu carrito está vacío.</p>
+
+        <a href="{% url 'inicio' %}" class="boton">
+
+            VOLVER AL MENÚ
+
+        </a>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

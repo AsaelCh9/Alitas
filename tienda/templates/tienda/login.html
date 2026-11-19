@@ -1,0 +1,35 @@
+{% extends 'tienda/base.html' %}
+
+{% block titulo %}Ingresar | Wings House{% endblock %}
+
+{% block contenido %}
+
+<section class="formulario-seccion">
+
+    <h1>INICIAR SESIÓN</h1>
+
+    <form method="post" class="formulario">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="boton">
+
+            INGRESAR
+
+        </button>
+
+    </form>
+
+    <p>
+
+        ¿No tienes cuenta?
+
+        <a href="{% url 'registro' %}">Regístrate aquí</a>
+
+    </p>
+
+</section>
+
+{% endblock %}

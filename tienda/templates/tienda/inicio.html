@@ -1,0 +1,139 @@
+{% extends 'tienda/base.html' %}
+
+{% block titulo %}Inicio | Wings House{% endblock %}
+
+{% block contenido %}
+
+<section class="portada">
+
+    <div class="portada-contenido">
+
+        <p class="etiqueta">BIENVENIDO A WINGS HOUSE</p>
+
+        <h1>EL SABOR QUE<br>
+
+            <span>TE ENAMORA</span>
+
+        </h1>
+
+        <p>
+
+            Alitas deliciosas, salsas irresistibles
+
+            y combos para compartir.
+
+        </p>
+
+        <a href="#menu" class="boton">
+
+            DESCUBRIR MENÚ
+
+        </a>
+
+    </div>
+
+</section>
+
+<section class="seccion-menu" id="menu">
+
+    <p class="etiqueta">NUESTROS PRODUCTOS</p>
+
+    <h2>ELIGE TUS FAVORITOS</h2>
+
+    <div class="productos">
+
+        {% for producto in productos %}
+
+        <article class="tarjeta">
+
+            {% if producto.imagen %}
+
+                <img src="{{ producto.imagen }}"
+
+                     alt="{{ producto.nombre }}">
+
+            {% else %}
+
+                <div class="imagen-vacia">🍗</div>
+
+            {% endif %}
+
+            {% if producto.precio_oferta %}
+
+                <span class="oferta">PROMOCIÓN</span>
+
+            {% endif %}
+
+            <div class="tarjeta-contenido">
+
+                <span class="categoria">
+
+                    {{ producto.get_categoria_display }}
+
+                </span>
+
+                <h3>{{ producto.nombre }}</h3>
+
+                <p>{{ producto.descripcion }}</p>
+
+                <div class="precio">
+
+                    {% if producto.precio_oferta %}
+
+                        <del>${{ producto.precio }}</del>
+
+                        <strong>${{ producto.precio_final }}</strong>
+
+                    {% else %}
+
+                        <strong>${{ producto.precio }}</strong>
+
+                    {% endif %}
+
+                </div>
+
+                <form method="post"
+
+                      action="{% url 'agregar_carrito' producto.id %}">
+
+                    {% csrf_token %}
+
+                    <button class="boton boton-comprar"
+
+                            type="submit">
+
+                        AGREGAR AL CARRITO
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </article>
+
+        {% empty %}
+
+            <p>
+
+                Todavía no hay productos disponibles.
+
+            </p>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<section class="promociones">
+
+    <h2>¡COMPARTE EL SABOR!</h2>
+
+    <p>Pregunta por nuestros combos y promociones.</p>
+
+    <a href="#menu" class="boton">VER PROMOCIONES</a>
+
+</section>
+
+{% endblock %}
