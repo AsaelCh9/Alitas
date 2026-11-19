@@ -1,0 +1,52 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<!-- Hero Minimalista -->
+<section class="mb-16 text-center max-w-xl mx-auto">
+    <p class="text-xs uppercase tracking-widest text-orange-600 font-semibold mb-3">Crujientes al momento</p>
+    <h1 class="text-4xl font-light tracking-tight text-stone-900 mb-4">
+        Alitas preparadas con ingredientes reales.
+    </h1>
+    <p class="text-stone-500 text-sm leading-relaxed">
+        Selecciona tu orden, elige tus salsas y recíbelas calientes en la puerta de tu casa.
+    </p>
+</section>
+
+<!-- Cuadrícula de Productos -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    {% for producto in productos %}
+    <article class="group bg-white border border-stone-200/80 rounded-2xl overflow-hidden flex flex-col justify-between hover:shadow-lg hover:shadow-stone-200/50 transition duration-300">
+        <div>
+            <!-- Contenedor de Imagen -->
+            <div class="aspect-[4/3] bg-stone-100 overflow-hidden">
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                {% else %}
+                    <!-- Imagen por defecto si no se sube una desde el admin -->
+                    <img src="https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=800&q=80" alt="{{ producto.nombre }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                {% endif %}
+            </div>
+
+            <!-- Detalles -->
+            <div class="p-6">
+                <span class="text-[11px] uppercase tracking-wider text-stone-400">{{ producto.get_categoria_display }}</span>
+                <h2 class="text-lg font-medium text-stone-900 mt-1">{{ producto.nombre }}</h2>
+                <p class="text-stone-500 text-xs mt-2 leading-relaxed">{{ producto.descripcion }}</p>
+            </div>
+        </div>
+
+        <!-- Precio y Botón -->
+        <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-stone-100">
+            <span class="text-base font-semibold text-stone-900">${{ producto.precio }}</span>
+            <a href="{% url 'agregar_carrito' producto.id %}" class="text-xs font-medium bg-stone-100 hover:bg-stone-900 hover:text-white text-stone-900 px-4 py-2.5 rounded-xl transition">
+                + Agregar
+            </a>
+        </div>
+    </article>
+    {% empty %}
+    <div class="col-span-3 text-center py-12 text-stone-400 text-sm">
+        Aún no hay productos cargados. Ingresa al panel de administración para agregar alitas.
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

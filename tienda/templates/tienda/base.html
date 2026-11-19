@@ -1,99 +1,52 @@
-{% load static %}
-
 <!DOCTYPE html>
-
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>{% block titulo %}Wings House{% endblock %}</title>
-
-    <link rel="stylesheet"
-
-          href="{% static 'tienda/estilos.css' %}">
-
+    <title>WINGS. — Alitas Artesanales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
+<body class="bg-stone-50 text-stone-900 antialiased flex flex-col min-h-screen">
 
-<body>
+    <!-- Navegación Minimalista -->
+    <header class="border-b border-stone-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="{% url 'inicio' %}" class="text-xl font-semibold tracking-tighter">
+                WINGS<span class="text-orange-600">.</span>
+            </a>
+           
+            <nav class="flex items-center gap-6 text-sm">
+                <a href="{% url 'inicio' %}" class="text-stone-600 hover:text-stone-900 transition">Menú</a>
+                <a href="{% url 'ver_carrito' %}" class="flex items-center gap-2 bg-stone-900 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition">
+                    <span>Orden</span>
+                    <span class="bg-white/20 text-xs px-2 py-0.5 rounded-full">{{ total_items|default:"0" }}</span>
+                </a>
+            </nav>
+        </div>
+    </header>
 
-<header class="encabezado">
+    <!-- Contenido Principal -->
+    <main class="flex-grow max-w-5xl mx-auto px-6 py-12 w-full">
+        {% block content %}{% endblock %}
+    </main>
 
-    <a href="{% url 'inicio' %}" class="logo">
+    <!-- Footer -->
+    <footer class="border-t border-stone-200 py-8 text-center text-xs text-stone-400">
+        <p>© 2026 WINGS. — Sabores puros, sin complicaciones.</p>
+    </footer>
 
-        WINGS <span>HOUSE</span>
-
+    <nav class="flex items-center gap-6 text-sm">
+    <a href="{% url 'inicio' %}" class="text-stone-600 hover:text-stone-900 transition">Menú</a>
+    <a href="{% url 'agregar_producto' %}" class="text-stone-600 hover:text-stone-900 transition">+ Subir Platillo</a>
+    <a href="{% url 'ver_carrito' %}" class="flex items-center gap-2 bg-stone-900 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition">
+        <span>Orden</span>
+        <span class="bg-white/20 text-xs px-2 py-0.5 rounded-full">{{ total_items|default:"0" }}</span>
     </a>
-
-    <nav>
-
-        <a href="{% url 'inicio' %}">Inicio</a>
-
-        <a href="{% url 'inicio' %}#menu">Menú</a>
-
-        <a href="{% url 'carrito' %}">🛒 Carrito</a>
-
-        {% if user.is_authenticated %}
-
-            <a href="{% url 'mis_pedidos' %}">Mis pedidos</a>
-
-            <form method="post" action="{% url 'logout' %}"
-
-                  class="form-salir">
-
-                {% csrf_token %}
-
-                <button type="submit">Cerrar sesión</button>
-
-            </form>
-
-        {% else %}
-
-            <a href="{% url 'registro' %}">Registrarse</a>
-
-            <a href="{% url 'login' %}">Ingresar</a>
-
-        {% endif %}
-
-    </nav>
-
-</header>
-
-{% if messages %}
-
-    <div class="mensajes">
-
-        {% for message in messages %}
-
-            <p>{{ message }}</p>
-
-        {% endfor %}
-
-    </div>
-
-{% endif %}
-
-<main>
-
-    {% block contenido %}
-
-    {% endblock %}
-
-</main>
-
-<footer>
-
-    <h2>WINGS HOUSE</h2>
-
-    <p>El sabor que te hace volver.</p>
-
-    <p> 2026 Wings House</p>
-
-</footer>
+</nav>
 
 </body>
-
 </html>

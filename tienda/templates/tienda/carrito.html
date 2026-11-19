@@ -1,83 +1,51 @@
 {% extends 'tienda/base.html' %}
 
-{% block titulo %}Carrito | Wings House{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <h1 class="text-2xl font-light tracking-tight mb-8">Tu Orden</h1>
 
-{% block contenido %}
-
-<section class="formulario-seccion">
-
-    <h1>MI CARRITO 🛒</h1>
-
-    {% if elementos %}
-
-        {% for elemento in elementos %}
-
-        <div class="fila-carrito">
-
-            <div>
-
-                <h3>{{ elemento.producto.nombre }}</h3>
-
-                <p>Cantidad: {{ elemento.cantidad }}</p>
-
-                <p>Precio: ${{ elemento.precio }}</p>
-
-                <strong>Subtotal: ${{ elemento.subtotal }}</strong>
-
+    {% if items %}
+        <div class="bg-white border border-stone-200 rounded-2xl divide-y divide-stone-100">
+            {% for item in items %}
+            <div class="p-5 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    {% if item.producto.imagen %}
+                        <img src="{{ item.producto.imagen.url }}" class="w-14 h-14 rounded-lg object-cover">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=200&q=80" class="w-14 h-14 rounded-lg object-cover">
+                    {% endif %}
+                    <div>
+                        <h3 class="text-sm font-medium text-stone-900">{{ item.producto.nombre }}</h3>
+                        <p class="text-xs text-stone-400">Cantidad: {{ item.cantidad }} × ${{ item.producto.precio }}</p>
+                    </div>
+                </div>
+                <span class="text-sm font-semibold">${{ item.subtotal }}</span>
             </div>
-
-            <form method="post"
-
-                  action="{% url 'quitar_carrito' elemento.producto.id %}">
-
-                {% csrf_token %}
-
-                <button type="submit" class="boton-eliminar">
-
-                    Eliminar
-
-                </button>
-
-            </form>
-
+            {% endfor %}
         </div>
 
-        {% endfor %}
-
-        <h2 class="total">TOTAL: ${{ total }}</h2>
-
-        {% if user.is_authenticated %}
-
-            <a href="{% url 'checkout' %}" class="boton">
-
-                FINALIZAR PEDIDO
-
-            </a>
-
-        {% else %}
-
-            <p>Inicia sesión para realizar tu pedido.</p>
-
-            <a href="{% url 'login' %}" class="boton">
-
-                INICIAR SESIÓN
-
-            </a>
-
-        {% endif %}
-
+        <!-- Resumen Total -->
+        <div class="mt-6 bg-white border border-stone-200 rounded-2xl p-6 flex items-center justify-between">
+            <div>
+                <p class="text-xs text-stone-400">Total a pagar</p>
+                <p class="text-2xl font-semibold text-stone-900">${{ total_pagar }}</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="{% url 'limpiar_carrito' %}" class="text-xs text-stone-500 hover:text-red-600 px-4 py-3 transition">
+                    Vaciar
+                </a>
+                <button onclick="alert('¡Pedido confirmado! Tus alitas están entrando a cocina.')" class="bg-orange-600 hover:bg-orange-700 text-white text-xs font-medium px-6 py-3 rounded-xl transition">
+                    Confirmar Pedido
+                </button>
+            </div>
+        </div>
     {% else %}
-
-        <p>Tu carrito está vacío.</p>
-
-        <a href="{% url 'inicio' %}" class="boton">
-
-            VOLVER AL MENÚ
-
-        </a>
-
+        <div class="text-center py-16 bg-white border border-stone-200 rounded-2xl">
+            <p class="text-stone-500 text-sm mb-4">Tu carrito está vacío.</p>
+            <a href="{% url 'inicio' %}" class="inline-block text-xs font-medium bg-stone-900 text-white px-5 py-2.5 rounded-xl hover:bg-orange-600 transition">
+                Explorar el menú
+            </a>
+        </div>
     {% endif %}
-
-</section>
-
+</div>
 {% endblock %}
