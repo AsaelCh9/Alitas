@@ -39,13 +39,21 @@
         <p>© 2026 WINGS. — Sabores puros, sin complicaciones.</p>
     </footer>
 
-    <nav class="flex items-center gap-6 text-sm">
-    <a href="{% url 'inicio' %}" class="text-stone-600 hover:text-stone-900 transition">Menú</a>
-    <a href="{% url 'agregar_producto' %}" class="text-stone-600 hover:text-stone-900 transition">+ Subir Platillo</a>
-    <a href="{% url 'ver_carrito' %}" class="flex items-center gap-2 bg-stone-900 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition">
-        <span>Orden</span>
-        <span class="bg-white/20 text-xs px-2 py-0.5 rounded-full">{{ total_items|default:"0" }}</span>
-    </a>
+    <nav class="flex items-center gap-5 text-sm">
+<a href="{% url 'inicio' %}" class="text-stone-600 hover:text-stone-900 transition">Menú</a>
+
+{% if user.is_authenticated %}
+<a href="{% url 'agregar_producto' %}" class="text-stone-600 hover:text-stone-900 transition">+ Platillo</a>
+<a href="{% url 'ver_carrito' %}" class="flex items-center gap-2 bg-stone-900 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition">
+<span>Orden</span>
+<span class="bg-white/20 text-xs px-2 py-0.5 rounded-full">{{ total_items|default:"0" }}</span>
+</a>
+<span class="text-xs text-stone-400">Hola, {{ user.username }}</span>
+<a href="{% url 'logout' %}" class="text-xs text-red-600 hover:underline">Salir</a>
+{% else %}
+<a href="{% url 'login' %}" class="text-stone-600 hover:text-stone-900 transition">Iniciar sesión</a>
+<a href="{% url 'registro' %}" class="bg-stone-900 text-white px-4 py-2 rounded-full text-xs hover:bg-orange-600 transition">Registrarse</a>
+{% endif %}
 </nav>
 
 </body>

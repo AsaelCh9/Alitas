@@ -1,29 +1,17 @@
 {% extends 'tienda/base.html' %}
 
-{% block titulo %}Registro | Wings House{% endblock %}
-
-{% block contenido %}
-
-<section class="formulario-seccion">
-
-    <h1>CREAR CUENTA</h1>
-
-    <p>Regístrate para realizar tus pedidos.</p>
-
-    <form method="post" class="formulario">
-
-        {% csrf_token %}
-
-        {{ form.as_p }}
-
-        <button type="submit" class="boton">
-
-            REGISTRARME
-
-        </button>
-
-    </form>
-
-</section>
-
+{% block content %}
+<div class="max-w-md mx-auto bg-white border border-stone-200 rounded-2xl p-8">
+<h1 class="text-2xl font-light tracking-tight mb-6">Crear cuenta</h1>
+<form method="POST" class="space-y-4 text-sm">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit" class="w-full bg-stone-900 hover:bg-orange-600 text-white py-2.5 rounded-xl font-medium transition">
+Registrarse
+</button>
+</form>
+<p class="text-xs text-stone-500 mt-4 text-center">
+¿Ya tienes cuenta? <a href="{% url 'login' %}" class="text-orange-600 font-medium">Inicia sesión</a>
+</p>
+</div>
 {% endblock %}
