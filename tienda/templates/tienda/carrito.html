@@ -49,3 +49,11 @@
     {% endif %}
 </div>
 {% endblock %}
+<div class="flex gap-3">
+                <a href="{% url 'limpiar_carrito' %}" class="text-xs text-stone-500 hover:text-red-600 px-4 py-3 transition">
+                    Vaciar
+                </a>
+                <a href="{% url 'confirmar_pedido' %}" class="bg-orange-600 hover:bg-orange-700 text-white text-xs font-medium px-6 py-3 rounded-xl transition">
+                    Confirmar Pedido
+                </a>
+            </div>

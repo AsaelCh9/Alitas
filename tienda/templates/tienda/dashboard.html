@@ -1,0 +1,71 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+        <p class="text-xs uppercase tracking-widest text-orange-600 font-semibold">Panel de Control</p>
+        <h1 class="text-2xl font-light tracking-tight text-stone-900">Dashboard Administrativo</h1>
+    </div>
+    <div class="flex gap-3">
+        <a href="{% url 'lista_productos' %}" class="bg-stone-900 text-white text-xs font-medium px-4 py-2.5 rounded-xl hover:bg-orange-600 transition">Gestionar Productos</a>
+        <a href="{% url 'lista_categorias' %}" class="bg-white border border-stone-200 text-stone-900 text-xs font-medium px-4 py-2.5 rounded-xl hover:bg-stone-100 transition">Gestionar Categorías</a>
+    </div>
+</div>
+
+<!-- Tarjetas de Indicadores (Conteo de Registros) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="bg-white border border-stone-200 rounded-2xl p-6">
+        <p class="text-xs text-stone-400 uppercase tracking-wider">Productos Registrados</p>
+        <p class="text-3xl font-semibold text-stone-900 mt-2">{{ total_productos }}</p>
+        <a href="{% url 'lista_productos' %}" class="text-xs text-orange-600 mt-3 inline-block hover:underline">Ver tabla →</a>
+    </div>
+    <div class="bg-white border border-stone-200 rounded-2xl p-6">
+        <p class="text-xs text-stone-400 uppercase tracking-wider">Categorías</p>
+        <p class="text-3xl font-semibold text-stone-900 mt-2">{{ total_categorias }}</p>
+        <a href="{% url 'lista_categorias' %}" class="text-xs text-orange-600 mt-3 inline-block hover:underline">Ver tabla →</a>
+    </div>
+    <div class="bg-white border border-stone-200 rounded-2xl p-6">
+        <p class="text-xs text-stone-400 uppercase tracking-wider">Pedidos Realizados</p>
+        <p class="text-3xl font-semibold text-stone-900 mt-2">{{ total_pedidos }}</p>
+        <span class="text-xs text-stone-400 mt-3 inline-block">Órdenes totales</span>
+    </div>
+    <div class="bg-white border border-stone-200 rounded-2xl p-6">
+        <p class="text-xs text-stone-400 uppercase tracking-wider">Usuarios del Sistema</p>
+        <p class="text-3xl font-semibold text-stone-900 mt-2">{{ total_usuarios }}</p>
+        <span class="text-xs text-stone-400 mt-3 inline-block">Admins y clientes</span>
+    </div>
+</div>
+
+<!-- Tabla de Últimos Pedidos -->
+<div class="bg-white border border-stone-200 rounded-2xl overflow-hidden">
+    <div class="px-6 py-4 border-b border-stone-100">
+        <h2 class="text-sm font-medium text-stone-900">Últimos Pedidos Registrados</h2>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+            <thead class="bg-stone-50 text-stone-500 uppercase">
+                <tr>
+                    <th class="px-6 py-3">ID</th>
+                    <th class="px-6 py-3">Cliente</th>
+                    <th class="px-6 py-3">Producto</th>
+                    <th class="px-6 py-3">Cantidad</th>
+                    <th class="px-6 py-3">Fecha</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-100">
+                {% for pedido in ultimos_pedidos %}
+                <tr>
+                    <td class="px-6 py-4 font-medium">#{{ pedido.id }}</td>
+                    <td class="px-6 py-4">{{ pedido.usuario.username }}</td>
+                    <td class="px-6 py-4">{{ pedido.producto.nombre }}</td>
+                    <td class="px-6 py-4">{{ pedido.cantidad }}</td>
+                    <td class="px-6 py-4 text-stone-400">{{ pedido.fecha|date:"d/m/Y H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="px-6 py-8 text-center text-stone-400">No hay pedidos registrados aún.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

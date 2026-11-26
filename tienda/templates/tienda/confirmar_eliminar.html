@@ -1,0 +1,12 @@
+{% extends 'tienda/base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white border border-stone-200 rounded-2xl p-8 text-center">
+    <h1 class="text-xl font-medium text-stone-900 mb-2">Eliminar {{ tipo }}</h1>
+    <p class="text-xs text-stone-500 mb-6">¿Estás seguro de que deseas eliminar <strong>"{{ objeto }}"</strong>? Esta acción no se puede deshacer.</p>
+    <form method="POST" class="flex justify-center gap-3">
+        {% csrf_token %}
+        <a href="{% url url_cancelar %}" class="text-xs bg-stone-100 text-stone-700 px-5 py-2.5 rounded-xl hover:bg-stone-200 transition">Cancelar</a>
+        <button type="submit" class="text-xs bg-red-600 text-white px-5 py-2.5 rounded-xl hover:bg-red-700 transition">Sí, eliminar</button>
+    </form>
+</div>
+{% endblock %}

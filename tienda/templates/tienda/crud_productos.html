@@ -1,0 +1,59 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div>
+        <h1 class="text-2xl font-light tracking-tight text-stone-900">Gestión de Productos</h1>
+        <p class="text-xs text-stone-500">Crea, edita o elimina los platillos del catálogo.</p>
+    </div>
+    <a href="{% url 'crear_producto' %}" class="bg-stone-900 hover:bg-orange-600 text-white text-xs font-medium px-5 py-2.5 rounded-xl transition self-start">
+        + Nuevo Producto
+    </a>
+</div>
+
+<div class="bg-white border border-stone-200 rounded-2xl overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+            <thead class="bg-stone-50 text-stone-500 uppercase">
+                <tr>
+                    <th class="px-6 py-3">Imagen</th>
+                    <th class="px-6 py-3">Nombre</th>
+                    <th class="px-6 py-3">Categoría</th>
+                    <th class="px-6 py-3">Precio</th>
+                    <th class="px-6 py-3">Estado</th>
+                    <th class="px-6 py-3 text-right">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-100">
+                {% for prod in productos %}
+                <tr class="hover:bg-stone-50/60">
+                    <td class="px-6 py-3">
+                        {% if prod.imagen %}
+                            <img src="{{ prod.imagen.url }}" class="w-10 h-10 rounded-lg object-cover">
+                        {% else %}
+                            <div class="w-10 h-10 rounded-lg bg-stone-100 flex items-center justify-center text-stone-400">Sin foto</div>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-3 font-medium text-stone-900">{{ prod.nombre }}</td>
+                    <td class="px-6 py-3 text-stone-500">{{ prod.categoria.nombre }}</td>
+                    <td class="px-6 py-3 font-semibold">${{ prod.precio }}</td>
+                    <td class="px-6 py-3">
+                        {% if prod.disponible %}
+                            <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700">Activo</span>
+                        {% else %}
+                            <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500">Oculto</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-3 text-right space-x-2">
+                        <a href="{% url 'editar_producto' prod.id %}" class="inline-block bg-stone-100 hover:bg-stone-200 text-stone-800 px-3 py-1.5 rounded-lg font-medium transition">Editar</a>
+                        <a href="{% url 'eliminar_producto' prod.id %}" class="inline-block bg-red-50 hover:bg-red-600 hover:text-white text-red-600 px-3 py-1.5 rounded-lg font-medium transition">Eliminar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="px-6 py-8 text-center text-stone-400">No hay productos registrados.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
