@@ -1,10 +1,10 @@
-### Gráfica Burndown Global — Proyecto WINGS. (Sprints 1 al 5)
+### Gráfica Burndown de Horas — Proyecto WINGS. (Sprints 1 al 5)
 
 ```mermaid
 xychart-beta
-    title "Burndown Chart Global - Proyecto WINGS. (Sprints 1 al 5)"
-    x-axis ["Inicio", "Sprint 1", "Sprint 2", "Sprint 3", "Sprint 4", "Sprint 5"]
-    y-axis "Puntos de Historia Pendientes" 0 --> 100
-    line "Trabajo Ideal" [100, 80, 60, 40, 20, 0]
-    line "Trabajo Real" [100, 75, 62, 38, 18, 0]
+    title "Control de Horas: Hechas vs. Pendientes (Sprints 1 al 5)"
+    x-axis ["Inicio", "Sprint 1", "Sprint 2", "Sprint 3 (Actual)", "Sprint 4", "Sprint 5"]
+    y-axis "Horas de Desarrollo" 0 --> 100
+    line "Horas Pendientes" [100, 75, 62, 38, 18, 0]
+    line "Horas Hechas" [0, 25, 38, 62, 82, 100]
 ```
